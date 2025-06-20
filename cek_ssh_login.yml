@@ -1,0 +1,13 @@
+---
+- name: Cek koneksi SSH ke host
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: Tes koneksi dengan perintah 'whoami'
+      ansible.builtin.command: whoami
+      register: hasil
+
+    - name: Tampilkan user yang berhasil login
+      ansible.builtin.debug:
+        msg: "Berhasil login sebagai: {{ hasil.stdout }}"
