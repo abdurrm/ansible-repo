@@ -1,0 +1,27 @@
+---
+- name: Cek OS dan service lalu kirim ke webhook
+  hosts: all
+  gather_facts: no
+
+  tasks:
+    - name: Cek informasi OS
+      raw: uname -a
+      register: os_info
+
+    - name: Cek daftar service
+      raw: ps -eo pid,comm
+      register: service_info
+
+    - name: Kirim hasil ke webhook
+      uri:
+        url: https://dev-n8n.ub.ac.id/ansible
+        method: POST
+        headers:
+          Content-Type: "application/json"
+        body_format: json
+        body: |
+          {
+            "host": "{{ inventory_hostname }}",
+            "os_info": "{{ os_info.stdout | quote }}",
+            "services": {{ service_info.stdout_lines | to_json }}
+          }
