@@ -14,7 +14,7 @@
 
     - name: Kirim hasil ke webhook
       uri:
-        url: https://dev-n8n.ub.ac.id/ansible
+        url: https://dev-n8n.ub.ac.id/webhook/ansible-result
         method: POST
         headers:
           Content-Type: "application/json"
